@@ -2,15 +2,15 @@
 FROM node:alpine as builder
 
 WORKDIR '/app'
-COPY ./package.json .
+COPY package*.json .
 # install dependency 
 RUN npm install
-COPY ./ ./
+COPY . .
 RUN npm run build
 
 # /app/build build directory
 
 
-FROM nginx as RUN
+FROM nginx
 EXPOSE 80
-COPY  --from=0 /app/build /usr/share/nginx/html
+COPY --from=0 /app/build /usr/share/nginx/html
